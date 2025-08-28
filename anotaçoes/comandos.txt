@@ -1,0 +1,9 @@
+criando o model User,a migration user e o seed 
+
+  php artisan  make:model User --migration --seed
+
+criando o model Post,a migration user e o seed 
+
+  php artisan  make:model Post  --migration --seed
+
+
