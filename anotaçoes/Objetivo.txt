@@ -1,0 +1,18 @@
+A ideia aqui e trabalhar com policies e testar o funcionamento dessse conceito 
+dentro do laravel, as policitcas de acesso vão estar salvas na base de dados e
+seram consultadas pelo sistema conforme a necessidade. 
+
+Metodos do AuthController o metodo login não tem uma formulario porque o usuario 
+ja está pre-definido então eu so preciso mandar o id. 
+
+  public function login_user($id)
+    {
+       $user = User::find($id);
+       Auth::login($user);
+       return redirect()->route('home');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
+    }
