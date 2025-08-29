@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 'email'=>"$role@gmail.com",
                 'password'=>bcrypt('Aa123456'),
                 'role'=>$role,
-                'crested_at'=>now(),
+                'created_at'=>now(),
                 'updated_at'=>now()
             ];
         }

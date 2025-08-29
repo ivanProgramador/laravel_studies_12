@@ -7,3 +7,13 @@ criando o model Post,a migration user e o seed
   php artisan  make:model Post  --migration --seed
 
 
+rodando o seed para gravar aos dados nas tabelas 
+Usuarios 
+   php artisan db:seed --class=UserSeeder
+Posts
+   php artisan db:seed --class=PostSeeder
+
+criando o controller 
+  php artisan make:controller AuthController
+   
+   
