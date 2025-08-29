@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -13,5 +14,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
 
    Route::redirect('/','/home');
+   Route::get('/home',[MainController::class,'index'])->name('home');
+   Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
 });

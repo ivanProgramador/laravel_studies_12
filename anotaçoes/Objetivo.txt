@@ -16,3 +16,26 @@ ja está pre-definido então eu so preciso mandar o id.
         Auth::logout();
         return redirect()->route('login');
     }
+Rotas 
+  No casso eu criei 2 grupos de rotas o primeiro grupo esta acessivel para usuarios visitantes,
+  que não precisam ter feito login parar fazer um requisição.
+
+  Route::middleware('guest')->group(function () {
+
+    Route::view('/login','auth.login')->name('login');
+    Route::get('/login/{id}', [AuthController::class, 'login_user'])->name('login_user');
+
+  });  
+
+O segundo grupo de rotas so pode ser acessado por usuarios que já estejam autenticados no sistema
+a primeira rota funciona como um prefixo toda vez que um usuario logado requisitar a raiz ele volta 
+para a home 
+
+ Route::middleware('auth')->group(function () {
+
+   Route::redirect('/','/home');
+   Route::get('/home',[MainController::class,'index'])->name('home');
+   Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+
+ });
+
