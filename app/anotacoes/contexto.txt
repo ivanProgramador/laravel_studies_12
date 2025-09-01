@@ -1,0 +1,20 @@
+A ideia desse projeto é esstabelecer permissões atraves das policies, no caso da gates eu teria de criar 
+uma função que dpendendo do retrono dela true ou false o usuario teria ou não acesso a alguma rota ou 
+recurso dentro do sistema,  no caso da policies, ela ficam aramezenas na abase de dados e seram consultadas
+pelo sistema toda vez que uma usuario entrar. 
+
+Eu não criri um formulario de login nesse porjeto porqque o aobjetivo seria oemnete testar esse conceito
+ao acionar a rota ja existe um id pre-definido qua será enviado no momento da resquisição.
+
+Na minha view login eu tenho 3 links todos apontam parara mesma rota, mas cada um tem um id de usuario difrente 
+e cada usuario desse tem uma hierarquia 
+
+1 - administrador 
+2 - usuario 
+3 - visitante 
+
+         <a href="{{ route('login_user', ['id'=>1]) }}" class="btn btn-lg btn-outline-primary px-5 ">Login admim</a>
+         <a href="{{ route('login_user', ['id'=>2]) }}" class="btn btn-lg btn-outline-primary px-5 ">Login user </a>
+         <a href="{{ route('login_user', ['id'=>3]) }}" class="btn btn-lg btn-outline-primary px-5 ">Login visitor</a>
+
+Cada uma deles tera uma politica acesso diferente dentro do sistema  

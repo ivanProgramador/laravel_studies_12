@@ -1,0 +1,30 @@
+ 
+criando o model a migration e o sedd para os usuarios
+
+  php artisan make:model User
+  php artisan make:migration  User
+  php artisan make:seed  UserSeeder
+
+
+fazendo a mesma coisa para os posts
+
+  php artisan make:model Post
+  php artisan make:migration  Post
+  php artisan make:seed  PostSeeder
+
+executando o codigo do  seed
+
+ php artisan db:seed --class= UserSeeder
+ php artisan db:seed --class= PostSeeder
+
+criando o controller de autenticação 
+
+ php artisan make:controller AuthController
+
+criando o componente de barra do usuario 
+
+
+
+
+
+
