@@ -1,0 +1,34 @@
+
+Esse é o comando usado parar criar um policy ele vai gerar a pasta e dentro dela a classe
+PostPolicy, como o nome ja diz eu vou usar ela pra controlalar as permissões de post, mas 
+existe uma forrma mais prática de fazer isso.  
+
+php artisan make:policy PostPolicy
+
+Eu posso ligar ela direto no model com o comando abaixo ele cria porem existe um bug 
+onde ele vai criar ass importações do model post dessa forma use "App\Models\odel-Post;"
+no caso basta corrigir as importações para "use App\Models\Post;" porque sem a palavra 
+model o comando não funciona, mas como palavra model ele funciona mas importa como "odel-Post" 
+
+
+php artisan make:policy PostPolicy -model-Post 
+
+Ligar uma policy a uam model faz com que ela gera codigos autematiccos para as autorizações, por exemplo 
+essa viewAny se ela retornar true o usuario pode ver qualquer coisa. 
+
+ public function viewAny(User $user): bool
+    {
+        return false;
+    }
+
+O mesmo se passa com a create
+
+ public function create(User $user): bool
+    {
+        return false;
+    }
+
+
+
+
+

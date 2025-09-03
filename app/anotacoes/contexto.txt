@@ -1,20 +1,74 @@
-A ideia desse projeto é esstabelecer permissões atraves das policies, no caso da gates eu teria de criar 
-uma função que dpendendo do retrono dela true ou false o usuario teria ou não acesso a alguma rota ou 
-recurso dentro do sistema,  no caso da policies, ela ficam aramezenas na abase de dados e seram consultadas
-pelo sistema toda vez que uma usuario entrar. 
+O funcionamento das policies é bem parecido com as gates  no caso abaixo quando eu faço um comando para,
+criara uma policy ela gera uma pasta chamada polcies e dentro dela uma aruivo que possui a classe, o nome 
+da classe esta como post policy porque eu associei essas politicas aos posts.
 
-Eu não criri um formulario de login nesse porjeto porqque o aobjetivo seria oemnete testar esse conceito
-ao acionar a rota ja existe um id pre-definido qua será enviado no momento da resquisição.
+Abaixo tem uma policie que verifica a auatorização para uma view ela recebe o usuario e so posts como 
+parametros e faz um teste se o role do usuario for 'admim' ela retorna true ele pode ver as views que 
+estão submetidas a ela.   
 
-Na minha view login eu tenho 3 links todos apontam parara mesma rota, mas cada um tem um id de usuario difrente 
-e cada usuario desse tem uma hierarquia 
+class PostPolicy
+{
+     public function view(User $user, Post $Post): bool
+    {
+        return($user->role === 'admin'|| $user->id === $Post->user_id);
+    }
+
+}
+
+Como uma policie controla as permissões quando o suario faz o login ela ja testa 
+se ele é um admim ou não então o objetivo dela e testar se ele tera acesso a esses botões 
+esse é um botão de atualizar mas antes de mostrar ele para o usuario eu verifico oque foi 
+que a policie retornou pra mim combase no login dele, se ele for 'admin' o botão vai aparecer
+caso ela tenha retornado false o botão não ficará disponivel.    
+
+  @can('update',$post)
+           <a href="#" class="btn btn-primary">Edit post</a>
+  @endcan
+
+
+abaixo o codigo completo da div dos botões onde o botão de deletar passsa eploa mesmo teste 
+
+   <div class="d-flex justify-content-end gap-5">
+         @can('update',$post)
+           <a href="#" class="btn btn-primary">Edit post</a>
+         @endcan
+
+         @can('delete',$post)
+           <a href="#" class="btn btn-danger">Delete post</a>
+         @endcan
+   </div>
+
+
+tipos de usuarios 
 
 1 - administrador 
 2 - usuario 
 3 - visitante 
 
+cada link desses loga com tipo diferente 
+
          <a href="{{ route('login_user', ['id'=>1]) }}" class="btn btn-lg btn-outline-primary px-5 ">Login admim</a>
          <a href="{{ route('login_user', ['id'=>2]) }}" class="btn btn-lg btn-outline-primary px-5 ">Login user </a>
          <a href="{{ route('login_user', ['id'=>3]) }}" class="btn btn-lg btn-outline-primary px-5 ">Login visitor</a>
 
-Cada uma deles tera uma politica acesso diferente dentro do sistema  
+Cada um deles tera uma politica acesso diferente dentro do sistema 
+
+policies dentro dos metodos no caso se o usuario conseguir burlara o sistema de segurança do servidor 
+e tentara acessar diretamente a função update para prevenir isso eu tenho que aplicar os testes dentro
+do metodos também, no caso abaixo ele chama a autenticação pra dientificar o usuario, depous de identificcar 
+ele usa a funação can pra chamar a policie e ela testa se ele pode ou não passar pra dentro da função.         
+
+  public function update($id){
+
+        $post= Post::find($id);
+
+        //verificando se o usuario pode editar o post 
+        if(Auth::user()->can('update',$post)){
+
+             echo'O usuario pode atualizar o post';
+        }else{
+             echo'O usuario não pode atualizar o post';
+        }
+    }
+
+
