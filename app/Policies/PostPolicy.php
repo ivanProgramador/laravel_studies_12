@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostPolicy
 {
@@ -28,7 +29,7 @@ class PostPolicy
     /**
      * determina quem pode criar os posts
      */
-    public function create(User $user): bool
+    public function create(User $user)
     {
        // if($user->role !== 'visitor'){
        //    return true;
@@ -47,26 +48,25 @@ class PostPolicy
        // return $user->permissions->contains('permission','create_post');
 
        //outra forma de chegar ao mesmo resultado so que consultando o array de permissões do usuário 
+       
        //V3 
-       foreach($user->permissions as $permission){
+       //  foreach($user->permissions as $permission){
 
-          if($permission->permission === 'create_post'){
-             return true;
-          }
-          return false;
+       //   if($permission->permission === 'create_post'){
+       //      return true;
+       //   }
+       //   return false;
 
+       //Devolvendo algo além de true e false
+       
+       if($user->permissions->contains('permission','create_post')){
+           return Response::allow();
+       }else{
+           return Response::denyWithStatus(403,'Você não tem essa permissão');
        }
 
-
-
-
-
-
-
-
-
-
     }
+
 
     /**
      * determina quam pode atualizar os posts.
