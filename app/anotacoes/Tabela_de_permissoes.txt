@@ -35,5 +35,20 @@ Relação Usuario, Permissão e Posts
           die();
 
 Com isso ao inves de ler o cargo dele eu faço uma consulta na base de dados para verificar as permissões que foram atribuidas,
-no perfil dele  
+no perfil dele, na abase dedados eu posso dizer o nome especifico para cada permissão e associar ela a um grupo por exemplo no 
+codigo abaixo a função update busca por uma permissão com o nome 'update_post' dentro da tebla de permissões que esteja associada
+a esse tipo de usuario, se encontrar ela retorna true, mas essa permissão poderia tambem ser outra mais especifica por exemplo:
+
+1 - ver_relatorio
+2 - ver_lista_usuario 
+3 - auditar_acessos 
+4 - apagar_cadastro 
+
+por isso manter essas permissões em uma tabela me dá a liberdade de colocar o nome que eu quiser 
+
+  public function update(User $user, Post $Post): bool
+    {
+        return $user->permissions->contains('permission','update_post');
+    }
+
            

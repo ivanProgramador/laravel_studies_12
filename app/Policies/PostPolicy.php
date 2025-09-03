@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Container\Attributes\Auth;
 
 class PostPolicy
 {
@@ -29,11 +30,41 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        if($user->role !== 'visitor'){
-            return true;
-        }
+       // if($user->role !== 'visitor'){
+       //    return true;
+       // }
+       // return false;
 
-        return false;
+       //consultando a permissão na base 
+       //Aqui ele busca se existe uma permissão com esse nome associada a esse tipo de usuário
+        
+       // V1
+       // return $user->permissions()->where('permission','create_post')->exists();
+
+       //outra forma de chegar ao mesmo resultado 
+        
+       // V2
+       // return $user->permissions->contains('permission','create_post');
+
+       //outra forma de chegar ao mesmo resultado so que consultando o array de permissões do usuário 
+       //V3 
+       foreach($user->permissions as $permission){
+
+          if($permission->permission === 'create_post'){
+             return true;
+          }
+          return false;
+
+       }
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -42,7 +73,7 @@ class PostPolicy
      */
     public function update(User $user, Post $Post): bool
     {
-        return $user->id === $Post->user_id;
+        return $user->permissions->contains('permission','update_post');
     }
 
     /**
