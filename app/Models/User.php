@@ -15,4 +15,11 @@ class User extends Authenticatable
         //estabelacendo uma relçao de um para amuitos com os post  
         return $this->hasMany(Post::class);
     }
+
+    //criando uma relaçao de um para muitos com a tabela de permissões
+
+    public function permissions()
+    {
+        return $this->hasMany(UsersPermission::class);   
+    }
 }

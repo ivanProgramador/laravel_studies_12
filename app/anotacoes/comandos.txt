@@ -22,6 +22,20 @@ criando o controller de autenticação
  php artisan make:controller AuthController
 
 criando o componente de barra do usuario 
+  php artisan make:component UserBar --view    
+  
+criando um seeder para tebela de permissões 
+
+  php artisan make:seeder UserPermissionsSeeder
+
+executando a seed de permissões
+
+  php artisan db:seed --class=UserPermissionsSeeder 
+
+criando um model para ccontrolar a tabela de permissões
+
+ php artisan make:model UsersPermission
+
 
 
 

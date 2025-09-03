@@ -10,9 +10,19 @@ class AuthController extends Controller
 {
     public function login_user($id){
 
-         $user = User::find($id);
+       
+
+         $user = User::with('permissions')->find($id);
          Auth::login($user);
-         return redirect()->route('home');
+
+         echo'<pre>';
+          $user = Auth::user()->toArray();
+          print_r($user);
+          die();
+
+        return redirect()->route('home');
+
+
 
     }
 

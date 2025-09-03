@@ -1,0 +1,39 @@
+Porque salvar na abase de dados
+
+As policies retornan true ou false essa e a função delas porém é importante ver
+que ter as permissões slavas na base de dados possibilita uma detalhamento maior
+em relação a perfis de usuarios.
+
+A tabela de permissões criada possui uma relação com os usuarios atraves do id,
+a relação estabelecida foid e um para muitos porque um usuario, pode fazer muitas 
+coisas dentro de um sistema dependendo da hierarquia.
+
+então foi criado um seed de permissões com a seguinte regra 
+
+1 - administrador 
+    pode deletar,criar,atualizar e excluir o post dele e dos demais 
+
+2 - usuario comum 
+    pode criar posts 
+
+3 - usuario visitante 
+    pode criar posts
+
+Relação Usuario, Permissão e Posts
+
+  Antes de fazer qualquer coisa eu tenho que testar se essas relações estão funcionando,
+  porque a regra de negocio desse projeto depende dessa relação.esse codigo traz em formato 
+  de array o usuario e suas permissões 
+
+  
+         $user = User::with('permissions')->find($id);
+         Auth::login($user);
+
+         echo'<pre>';
+          $user = Auth::user()->toArray();
+          print_r($user);
+          die();
+
+Com isso ao inves de ler o cargo dele eu faço uma consulta na base de dados para verificar as permissões que foram atribuidas,
+no perfil dele  
+           
