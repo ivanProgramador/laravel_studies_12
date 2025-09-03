@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Gate;
 
 class PostPolicy
 {
+
+    //policy para super usuarios
+    //a logica aqui é se eu tiver um usuario com o nome 
+    //'SUPER' todas as policies ser]ão ignoradas e ele terá acesso irrestrito
+    //a qualquer recurso do sistema
+    //dentro da função before eu posso escolher varias logicas para
+    //tornar uma usuario super no caso como deoemntrção eu usei o nome 
+    //mas eu poderia ter usado qualquer outra coisa 
+
+    public function before(User $user){
+         if($user->name ==='SUPER'){
+             return true;
+         }
+    }
+
     /**
      * Determine whether the user can view any models.
      */

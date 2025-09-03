@@ -51,4 +51,58 @@ por isso manter essas permissões em uma tabela me dá a liberdade de colocar o 
         return $user->permissions->contains('permission','update_post');
     }
 
+Mensagens personalizadas 
+ As policies pemitem que eu envie mensagens personalizadas em caso de negação/permissão de acesso
+ no codigo abaixo depois de negar a apermissão eu mandoi tento o status 403 quando uma mensagem  
+
+ if($user->permissions->contains('permission','create_post')){
+           return Response::allow();
+ }else{
+           return Response::denyWithStatus(403,'Você não tem essa permissão');
+ }
+
+Tratando o retorno dentro do metodo no controller 
+  Aqui eu uso metodos das gates qque seria o spect que  server parar detalhar
+  oque esta sendo retornado com isso eu conseigo acessar a amensagem e o status 
+  delvolvidos no retorno para avisar ao ussurio de uma forma mais amigavel eu 
+  uso a função abort ela recebe 2 parameteros  
+  
+  1 - status retornado
+  2 - a mensagem   
+   
+com isso ela mostra uma view padrão do laravel pra negação ou aviso 
+
+
+   $response = Gate::inspect('create',Post::class);
+        if($response->allowed()){
+           echo'Usuario pode criar um post';
+        }else{
+
+          //fazendo dessa forma ele mostra uma pagina com um visual mais amigavel 
+           
+           if($response->status()===403){
+               abort(403,$response->message());
+           }
+        }
+
+
+SUPER USUARIOS 
+  Para criar super usuarios eu tenho que criar a policy before eu fiz uma logica basica para 
+  definir uma usuario como super, basicamente ela teste se o nome do usuario é 'SUPER'se for 
+  todas as outras policieis serão ignoradas e ele terá acesso irrestrito a qualquer recurso 
+  do sistema, para testar eu estou usando o nome mas qualquer logica mais ou menos complexa 
+  pode ser usada tambem.  
+    
+    public function before(User $user){
+         if($user->name ==='SUPER'){
+             return true;
+         }
+    } 
+
+
+
+
+
+
+
            
